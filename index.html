@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salma Notes</title>
+  
+  <!-- Fallback elegant script font if Coronet isn't installed -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for clean, simple edit and delete icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Soft, eye-friendly color palette */
+    :root {
+      --bg-color: #FFF0F5; /* Lavender Blush */
+      --card-bg: #FFFFFF;
+      --accent-light: #FFE4E1; /* Misty Rose */
+      --accent-main: #FFB6C1; /* Light Pink */
+      --accent-dark: #DB7093; /* Pale Violet Red */
+      --text-color: #5C404C; /* Soft dark plum instead of harsh black */
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Coronet', 'Dancing Script', cursive;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    .app-container {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 10px 30px rgba(230, 190, 200, 0.4);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--accent-dark);
+      font-size: 3.5rem;
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border: 2px solid var(--accent-light);
+      border-radius: 10px;
+      font-size: 1.4rem;
+      font-family: inherit;
+      color: var(--text-color);
+      outline: none;
+      background-color: #FFFAFA;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent-main);
+    }
+
+    button.btn-main {
+      background-color: var(--accent-main);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0 25px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.3s, transform 0.1s;
+    }
+
+    button.btn-main:hover {
+      background-color: #FF91A4;
+    }
+    
+    button.btn-main:active {
+      transform: scale(0.97);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    select {
+      border: 2px solid var(--accent-light);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text-color);
+      background: #FFFAFA;
+      font-family: inherit;
+      font-size: 1.2rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .task-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      background-color: #FFF9FA;
+      padding: 12px 18px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border-left: 5px solid var(--accent-main);
+      transition: all 0.3s ease;
+    }
+
+    .task-item.completed {
+      opacity: 0.5;
+      border-left-color: var(--accent-light);
+    }
+
+    .task-item.completed .task-text {
+      text-decoration: line-through;
+    }
+
+    .task-checkbox {
+      margin-right: 15px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent-dark);
+    }
+
+    .task-text {
+      flex: 1;
+      font-size: 1.6rem;
+      word-break: break-word;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .actions button {
+      background: transparent;
+      border: none;
+      color: var(--accent-main);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .actions button:hover {
+      color: var(--accent-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <h1>Salma Notes</h1>
+    
+    <div class="input-group">
+      <input type="text" id="taskInput" placeholder="What would you like to do?">
+      <button class="btn-main" id="addButton">Add</button>
+    </div>
+
+    <div class="controls">
+      <select id="sortSelect">
+        <option value="date-desc">Newest First</option>
+        <option value="date-asc">Oldest First</option>
+        <option value="name-asc">Name (A-Z)</option>
+        <option value="name-desc">Name (Z-A)</option>
+      </select>
+    </div>
+
+    <ul class="task-list" id="taskList">
+      <!-- Tasks will be rendered here dynamically -->
+    </ul>
+  </div>
+
+  <!-- Firebase Integration Script -->
+  <script type="module">
+    // Import the functions you need from the SDKs using standard ES modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCyES_YyIz54wHVYgHLFg_9gYbhfDz-PyU",
+      authDomain: "salma-notes.firebaseapp.com",
+      projectId: "salma-notes",
+      storageBucket: "salma-notes.firebasestorage.app",
+      messagingSenderId: "725168545178",
+      appId: "1:725168545178:web:33a80db028670236b52e23"
+    };
+
+    // Initialize Firebase and Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const taskInput = document.getElementById("taskInput");
+    const addButton = document.getElementById("addButton");
+    const sortSelect = document.getElementById("sortSelect");
+    const taskList = document.getElementById("taskList");
+
+    let tasks = [];
+    let editingId = null;
+
+    // Listen to the database in real-time
+    const tasksRef = collection(db, "tasks");
+    onSnapshot(tasksRef, (snapshot) => {
+      tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderTasks();
+    });
+
+    // Add or Update a Note
+    addButton.addEventListener("click", async () => {
+      const text = taskInput.value.trim();
+      if (!text) return;
+      
+      if (editingId) {
+        // Update existing task
+        await updateDoc(doc(db, "tasks", editingId), { text: text });
+        editingId = null;
+        addButton.textContent = "Add";
+      } else {
+        // Create new task
+        await addDoc(tasksRef, {
+          text: text,
+          completed: false,
+          createdAt: serverTimestamp()
+        });
+      }
+      taskInput.value = "";
+    });
+
+    // Allow pressing "Enter" to submit
+    taskInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        addButton.click();
+      }
+    });
+
+    // Re-render when sort selection changes
+    sortSelect.addEventListener("change", renderTasks);
+
+    // Render tasks to the screen
+    function renderTasks() {
+      taskList.innerHTML = "";
+      
+      const sortVal = sortSelect.value;
+      let sorted = [...tasks];
+      
+      // Sorting logic
+      if (sortVal === "date-desc") {
+        sorted.sort((a, b) => (b.createdAt?.seconds || Date.now()) - (a.createdAt?.seconds || Date.now()));
+      } else if (sortVal === "date-asc") {
+        sorted.sort((a, b) => (a.createdAt?.seconds || Date.now()) - (b.createdAt?.seconds || Date.now()));
+      } else if (sortVal === "name-asc") {
+        sorted.sort((a, b) => (a.text || "").localeCompare(b.text || ""));
+      } else if (sortVal === "name-desc") {
+        sorted.sort((a, b) => (b.text || "").localeCompare(a.text || ""));
+      }
+      
+      // Build the HTML for each task
+      sorted.forEach(task => {
+        const li = document.createElement("li");
+        li.className = `task-item ${task.completed ? 'completed' : ''}`;
+        
+        // Completion Checkbox
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.className = "task-checkbox";
+        cb.checked = task.completed;
+        cb.addEventListener("change", async () => {
+          await updateDoc(doc(db, "tasks", task.id), { completed: cb.checked });
+        });
+        
+        // Task Text
+        const span = document.createElement("span");
+        span.className = "task-text";
+        span.textContent = task.text;
+        
+        // Actions wrapper
+        const actions = document.createElement("div");
+        actions.className = "actions";
+        
+        // Edit Button
+        const editBtn = document.createElement("button");
+        editBtn.innerHTML = '<i class="fas fa-pen"></i>';
+        editBtn.addEventListener("click", () => {
+          taskInput.value = task.text;
+          editingId = task.id;
+          addButton.textContent = "Update";
+          taskInput.focus();
+        });
+        
+        // Delete Button
+        const delBtn = document.createElement("button");
+        delBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        delBtn.addEventListener("click", async () => {
+          await deleteDoc(doc(db, "tasks", task.id));
+        });
+        
+        actions.appendChild(editBtn);
+        actions.appendChild(delBtn);
+        
+        li.appendChild(cb);
+        li.appendChild(span);
+        li.appendChild(actions);
+        taskList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
