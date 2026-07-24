@@ -34,17 +34,17 @@
       --surface-glass: rgba(28, 28, 30, 0.8); 
     }
 
-    /* OVERRIDE: LIGHT MODE */
+    /* OVERRIDE: LIGHT MODE (Restored Lighter Pinks) */
     :root.light-theme {
-      --bg-color: #FCF4F6;
+      --bg-color: #FFF0F5;
       --surface: #FFFFFF;
-      --primary: #9D6587;
-      --primary-hover: #865271;
-      --primary-soft: #F4EAF0;
-      --text-main: #594A4E;
-      --text-muted: #B3A5A9;
+      --primary: #FFB6C1; /* Light Pink restored */
+      --primary-hover: #FF91A4;
+      --primary-soft: #FFE4E1;
+      --text-main: #5C404C;
+      --text-muted: #A38A94;
       --border-color: #F7E6E9;
-      --delete-bg: #FF6B6B;
+      --delete-bg: #FF3B30;
       --surface-glass: rgba(255, 255, 255, 0.9);
     }
 
@@ -128,7 +128,7 @@
 
     .side-menu-header {
       font-family: 'Dancing Script', cursive;
-      font-size: 2.4rem; /* Reduced from 2.8rem */
+      font-size: 2.4rem; 
       color: var(--primary);
       text-align: center;
       margin-bottom: 40px;
@@ -139,7 +139,7 @@
       align-items: center;
       gap: 15px;
       padding: 16px 20px;
-      font-size: 1rem; /* Reduced from 1.1rem */
+      font-size: 1rem; 
       font-weight: 600;
       color: var(--text-main);
       border-radius: 20px;
@@ -156,20 +156,22 @@
     .spacer { flex-grow: 1; }
     
     .version-info { 
-      text-align: center; 
       color: var(--text-muted); 
-      font-size: 0.9rem; /* Reduced from 1.1rem */
+      font-size: 0.9rem; 
       font-weight: 700; 
       letter-spacing: 2px; 
-      margin-bottom: 20px;
     }
 
     .menu-bottom-bar {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-between;
       align-items: center;
       padding-top: 15px;
       border-top: 1px solid var(--border-color);
+    }
+    .menu-bottom-icons {
+      display: flex;
+      gap: 5px;
     }
     .menu-bottom-bar .icon-btn {
       background: transparent;
@@ -236,7 +238,7 @@
     h1 {
       font-family: 'Dancing Script', cursive;
       color: var(--primary);
-      font-size: 2.2rem; /* Reduced from 2.6rem */
+      font-size: 2.2rem; 
       margin: 0;
       font-weight: 700;
     }
@@ -254,7 +256,7 @@
       background: transparent;
       border: none;
       padding: 10px 0;
-      font-size: 0.9rem; /* Reduced from 1rem */
+      font-size: 0.9rem; 
       font-weight: 700;
       font-family: inherit;
       color: var(--text-muted);
@@ -297,17 +299,17 @@
       margin: 0;
       flex-grow: 1;
       overflow-y: auto;
+      overflow-x: hidden;
     }
     .list-container::-webkit-scrollbar { display: none; }
     .list-container { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Swipe-to-delete Wrapper */
+    /* Safe Swipe Wrapper */
     .list-item-wrapper {
       position: relative;
       margin-bottom: 12px;
       border-radius: 24px;
       background: var(--delete-bg); 
-      overflow: hidden;
       animation: slideUp 0.4s ease-out forwards;
       opacity: 0;
       transform: translateY(20px);
@@ -323,6 +325,8 @@
       color: white;
       font-size: 1.3rem;
       z-index: 1;
+      cursor: pointer;
+      border-radius: 24px;
     }
 
     .list-item {
@@ -334,7 +338,8 @@
       border: 1px solid var(--border-color);
       position: relative;
       z-index: 2;
-      transition: transform 0.3s ease-out, background 0.3s, border-color 0.3s;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, border-color 0.3s;
+      width: 100%;
     }
 
     @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
@@ -367,10 +372,28 @@
     .checkbox-wrapper input:checked ~ .custom-checkbox::after { opacity: 1; transform: scale(1); }
 
     .item-text {
-      flex: 1; font-size: 1.0rem; /* Reduced from 1.15rem */ font-weight: 600; word-break: break-word;
-      transition: color 0.3s; color: var(--text-main);
+      flex: 1; 
+      font-weight: 600; 
+      word-break: break-word;
+      transition: color 0.3s; 
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
     }
-    .list-item.completed .item-text { text-decoration: line-through; color: var(--text-muted); }
+    
+    .item-text .main-text {
+      font-size: 1.0rem;
+    }
+
+    .item-text .date-text {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .list-item.completed .item-text .main-text { text-decoration: line-through; color: var(--text-muted); }
 
     .actions { display: flex; gap: 8px; flex-shrink: 0; }
     
@@ -396,7 +419,7 @@
 
     input[type="text"] {
       flex: 1; padding: 10px 15px; border: none; background: transparent;
-      font-size: 0.95rem; /* Reduced from 1.05rem */ font-weight: 600; font-family: inherit;
+      font-size: 0.95rem; font-weight: 600; font-family: inherit;
       color: var(--text-main); outline: none;
     }
     input[type="text"]::placeholder { color: var(--text-muted); font-weight: 500; }
@@ -411,7 +434,7 @@
 
     button.btn-main {
       background: var(--primary); color: white; border: none; border-radius: 24px;
-      padding: 0 20px; height: 38px; font-size: 0.95rem; /* Reduced */ font-weight: 700; cursor: pointer;
+      padding: 0 20px; height: 38px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
       font-family: inherit; transition: all 0.2s; white-space: nowrap;
     }
     button.btn-main:hover { background: var(--primary-hover); transform: scale(1.02); }
@@ -428,7 +451,6 @@
       width: 70px; height: 70px; display: flex; justify-content: center; align-items: center;
       border-radius: 50%;
     }
-
   </style>
 </head>
 <body>
@@ -445,15 +467,17 @@
     <!-- Future text links/categories can go here -->
     
     <div class="spacer"></div>
-    <div class="version-info">v2.5</div>
     
     <div class="menu-bottom-bar">
-      <button class="icon-btn" id="themeBtn" title="Toggle Theme">
-        <i class="fas fa-sun"></i>
-      </button>
-      <button class="icon-btn" id="refreshBtn" title="Refresh App">
-        <i class="fas fa-sync-alt"></i>
-      </button>
+      <div class="version-info">v2.7</div>
+      <div class="menu-bottom-icons">
+        <button class="icon-btn" id="themeBtn" title="Toggle Theme">
+          <i class="fas fa-sun"></i>
+        </button>
+        <button class="icon-btn" id="refreshBtn" title="Refresh App">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -651,6 +675,27 @@
 
     sortSelect.addEventListener("change", renderItems);
 
+    // Date Formatter
+    function formatDate(ms) {
+      if (!ms) return 'added just now';
+      const date = new Date(ms);
+      const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+      const d = date.getDate();
+      const m = months[date.getMonth()];
+      const y = date.getFullYear().toString().slice(-2);
+      return `added on ${d} ${m} ${y}`;
+    }
+
+    // Close open swiped items if user taps anywhere else on the document
+    document.addEventListener('touchstart', (e) => {
+      if (!e.target.closest('.list-item-wrapper')) {
+         document.querySelectorAll('.list-item.swiped').forEach(el => {
+            el.style.transform = 'translateX(0)';
+            el.classList.remove('swiped');
+         });
+      }
+    }, {passive: true});
+
     function renderItems() {
       listContainer.innerHTML = "";
       
@@ -687,6 +732,17 @@
         const deleteBg = document.createElement("div");
         deleteBg.className = "delete-bg";
         deleteBg.innerHTML = '<i class="fas fa-trash"></i>';
+        
+        // Execute delete when clicking the red background button
+        deleteBg.addEventListener('click', async () => {
+             const listEl = liContainer.querySelector('.list-item');
+             listEl.style.transform = `translateX(-100%)`;
+             setTimeout(async () => {
+                 liContainer.style.display = 'none';
+                 await deleteDoc(doc(db, targetCollectionName, item.id));
+                 if (editingId === item.id) resetInput();
+             }, 300);
+        });
 
         const li = document.createElement("div");
         li.className = `list-item ${item.completed ? 'completed' : ''}`;
@@ -707,9 +763,20 @@
         cbWrapper.appendChild(cb);
         cbWrapper.appendChild(customCb);
 
+        const textWrapper = document.createElement("div");
+        textWrapper.className = "item-text";
+        
         const span = document.createElement("span");
-        span.className = "item-text";
+        span.className = "main-text";
         span.textContent = item.text;
+        
+        const dateSpan = document.createElement("span");
+        dateSpan.className = "date-text";
+        let ms = item.createdAt?.seconds ? item.createdAt.seconds * 1000 : null;
+        dateSpan.textContent = formatDate(ms);
+
+        textWrapper.appendChild(span);
+        textWrapper.appendChild(dateSpan);
         
         const actions = document.createElement("div");
         actions.className = "actions";
@@ -722,18 +789,22 @@
           addButton.textContent = "Update";
           cancelEditBtn.style.display = "block";
           itemInput.focus();
+          
+          // Ensure it's not swiped open while editing
+          li.style.transform = 'translateX(0)';
+          li.classList.remove('swiped');
         });
         actions.appendChild(editBtn);
         
         li.appendChild(cbWrapper);
-        li.appendChild(span);
+        li.appendChild(textWrapper);
         li.appendChild(actions);
 
         liContainer.appendChild(deleteBg);
         liContainer.appendChild(li);
         listContainer.appendChild(liContainer);
 
-        // Mobile Swipe-to-delete logic
+        // SAFE SWIPE-TO-DELETE LOGIC
         let startX = 0;
         let currentX = 0;
         let isDragging = false;
@@ -742,6 +813,14 @@
           startX = e.touches[0].clientX;
           isDragging = true;
           li.style.transition = 'none'; 
+          
+          // Close any other open items
+          document.querySelectorAll('.list-item.swiped').forEach(el => {
+            if (el !== li) {
+              el.style.transform = 'translateX(0)';
+              el.classList.remove('swiped');
+            }
+          });
         }, {passive: true});
 
         li.addEventListener('touchmove', (e) => {
@@ -749,26 +828,22 @@
           const x = e.touches[0].clientX;
           currentX = x - startX;
           if (currentX < 0) { 
-             const move = Math.max(currentX, -120); 
+             const move = Math.max(currentX, -75); // Slide left, stop at 75px
              li.style.transform = `translateX(${move}px)`;
           }
         }, {passive: true});
 
-        const handleSwipeEnd = async () => {
+        const handleSwipeEnd = () => {
           if (!isDragging) return;
           isDragging = false;
-          li.style.transition = 'transform 0.3s ease-out';
+          li.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
           
-          if (currentX < -60) {
-            li.style.transform = `translateX(-100%)`;
-            setTimeout(async () => {
-              liContainer.style.display = 'none';
-              await deleteDoc(doc(db, targetCollectionName, item.id));
-              // Clear editing mode if we delete the item we are currently editing
-              if (editingId === item.id) resetInput();
-            }, 300);
+          if (currentX < -30) {
+            li.style.transform = `translateX(-75px)`; // Lock open to show button
+            li.classList.add('swiped');
           } else {
-            li.style.transform = `translateX(0)`;
+            li.style.transform = `translateX(0)`; // Snap shut
+            li.classList.remove('swiped');
           }
           currentX = 0;
         };
