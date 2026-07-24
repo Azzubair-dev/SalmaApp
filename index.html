@@ -38,6 +38,48 @@
       padding: 40px 20px;
       margin: 0;
       -webkit-tap-highlight-color: transparent; /* Makes mobile tapping cleaner */
+      position: relative;
+    }
+
+    .refresh-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: var(--accent-main);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, transform 0.1s;
+      box-shadow: 0 5px 15px rgba(255, 182, 193, 0.4);
+      z-index: 1000;
+    }
+
+    .refresh-button:hover {
+      background-color: #FF91A4;
+    }
+
+    .refresh-button:active {
+      transform: scale(0.95);
+    }
+
+    .refresh-button.rotating {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .app-container {
@@ -198,6 +240,10 @@
 </head>
 <body>
 
+  <button class="refresh-button" id="refreshButton" title="Refresh Page">
+    <i class="fas fa-sync-alt"></i>
+  </button>
+
   <div class="app-container">
     <h1>Salma Notes</h1>
     
@@ -221,7 +267,7 @@
   </div>
 
   <footer>
-    <span class="version">v1.0</span>
+    <span class="version">v1.1</span>
   </footer>
 
   <!-- Firebase Integration Script -->
@@ -245,6 +291,7 @@
     const addButton = document.getElementById("addButton");
     const sortSelect = document.getElementById("sortSelect");
     const taskList = document.getElementById("taskList");
+    const refreshButton = document.getElementById("refreshButton");
 
     let tasks = [];
     let editingId = null;
@@ -253,6 +300,14 @@
     onSnapshot(tasksRef, (snapshot) => {
       tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       renderTasks();
+    });
+
+    // Refresh Button Handler
+    refreshButton.addEventListener("click", () => {
+      refreshButton.classList.add("rotating");
+      setTimeout(() => {
+        location.reload();
+      }, 600);
     });
 
     // Add or Update a Note with Error Handling
