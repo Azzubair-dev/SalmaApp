@@ -33,6 +33,8 @@
       font-family: 'Coronet', 'Dancing Script', cursive;
       display: flex;
       justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
       padding: 40px 20px;
       margin: 0;
       -webkit-tap-highlight-color: transparent; /* Makes mobile tapping cleaner */
@@ -45,6 +47,7 @@
       box-shadow: 0 10px 30px rgba(230, 190, 200, 0.4);
       width: 100%;
       max-width: 500px;
+      margin: 0 auto;
     }
 
     h1 {
@@ -179,6 +182,18 @@
     .actions button:hover {
       color: var(--accent-dark);
     }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #999;
+      font-size: 1rem;
+    }
+
+    footer .version {
+      color: var(--accent-main);
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -204,6 +219,10 @@
       <!-- Tasks will be rendered here dynamically -->
     </ul>
   </div>
+
+  <footer>
+    <span class="version">v1.0</span>
+  </footer>
 
   <!-- Firebase Integration Script -->
   <script type="module">
