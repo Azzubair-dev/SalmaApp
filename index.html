@@ -27,6 +27,15 @@
       --text-color: #5C404C; /* Soft dark plum instead of harsh black */
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -37,6 +46,8 @@
       min-height: 100vh;
       padding: 40px 20px;
       margin: 0;
+      width: 100%;
+      overflow-x: hidden;
       -webkit-tap-highlight-color: transparent; /* Makes mobile tapping cleaner */
       position: relative;
     }
@@ -118,6 +129,7 @@
       outline: none;
       background-color: #FFFAFA;
       transition: border-color 0.3s;
+      box-sizing: border-box;
     }
 
     input[type="text"]:focus {
@@ -182,6 +194,7 @@
       margin-bottom: 12px;
       border-left: 5px solid var(--accent-main);
       transition: all 0.3s ease;
+      box-sizing: border-box;
     }
 
     .task-item.completed {
@@ -199,6 +212,7 @@
       width: 20px;
       height: 20px;
       accent-color: var(--accent-dark);
+      flex-shrink: 0;
     }
 
     .task-text {
@@ -210,6 +224,7 @@
     .actions {
       display: flex;
       gap: 10px;
+      flex-shrink: 0;
     }
 
     .actions button {
@@ -267,7 +282,7 @@
   </div>
 
   <footer>
-    <span class="version">v1.1</span>
+    <span class="version">v1.2</span>
   </footer>
 
   <!-- Firebase Integration Script -->
