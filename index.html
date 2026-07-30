@@ -14,8 +14,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Salma App">
   
-  <!-- Fonts: Tajawal (Primary for Arabic), Quicksand (Secondary UI), Dancing Script (Header) -->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Quicksand:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <!-- Fonts: PT Serif (Main), Tajawal (Arabic), Dancing Script (Greeting) -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -46,24 +46,24 @@
 
     /* OVERRIDE: LIGHT MODE */
     :root.light-theme {
-      --bg-color: #F8F9FA;
+      --bg-color: #F2F2F7;
       --surface: #FFFFFF;
-      --primary: #FFB6C1; 
-      --primary-hover: #FF91A4;
-      --primary-soft: #FFE4E1;
-      --text-main: #2D3748;
-      --text-muted: #718096;
-      --border-color: #EDF2F7;
+      --primary: #FF7FA0; /* Slightly punchier pink */
+      --primary-hover: #FF5A82;
+      --primary-soft: rgba(255, 127, 160, 0.15);
+      --text-main: #1C1C1E;
+      --text-muted: #8E8E93;
+      --border-color: #E5E5EA;
       --delete-bg: #FF3B30;
       --surface-glass: rgba(255, 255, 255, 0.85);
       
-      /* Bento Box Light Mode Variables */
-      --bento-dates-bg: linear-gradient(135deg, #FFE4E1 0%, #FFFFFF 100%);
-      --bento-todo-bg: linear-gradient(135deg, #E6FFFA 0%, #FFFFFF 100%);
-      --bento-wish-bg: linear-gradient(135deg, #FEFCBF 0%, #FFFFFF 100%);
+      /* Bento Box Light Mode Solid Pastel Variables */
+      --bento-dates-bg: #FFF0F5; /* Soft Rose */
+      --bento-todo-bg: #F0F8FF;  /* Soft Blue */
+      --bento-wish-bg: #FFF5E6;  /* Soft Peach */
       --bento-border: rgba(0, 0, 0, 0.03);
       --modal-bg: rgba(255, 255, 255, 0.4);
-      --preview-bg: rgba(255, 255, 255, 0.6);
+      --preview-bg: rgba(255, 255, 255, 0.5);
     }
 
     * { box-sizing: border-box; }
@@ -71,7 +71,7 @@
     body, html {
       margin: 0; padding: 0; width: 100%; height: 100dvh; 
       background: var(--bg-color); color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI Emoji", 'Tajawal', 'Quicksand', sans-serif;
+      font-family: 'PT Serif', 'Tajawal', serif;
       overflow: hidden; 
       -webkit-tap-highlight-color: transparent;
       transition: background 0.4s ease, color 0.4s ease;
@@ -103,8 +103,8 @@
     .header-left { left: 15px; } .header-right { right: 15px; }
 
     .header-title {
-      font-family: 'Dancing Script', cursive; color: var(--primary);
-      font-size: 2.2rem; margin: 0; font-weight: 700; transition: opacity 0.3s ease;
+      font-family: 'PT Serif', serif; color: var(--primary);
+      font-size: 1.8rem; margin: 0; font-weight: 700; font-style: italic; transition: opacity 0.3s ease;
     }
 
     .view-container { flex-grow: 1; position: relative; overflow: hidden; }
@@ -117,14 +117,11 @@
     .view.active { opacity: 1; pointer-events: auto; transform: translateX(0); }
 
     .greeting-section {
-      padding: 25px 20px 5px;
+      padding: 25px 20px 5px; text-align: center;
     }
     .greeting-section h2 {
-      margin: 0; font-size: 2.2rem; font-weight: 800; color: var(--text-main);
-      letter-spacing: -0.5px;
-    }
-    .greeting-section p {
-      margin: 5px 0 0 0; font-size: 1.05rem; color: var(--text-muted); font-weight: 500;
+      margin: 0; font-family: 'Dancing Script', cursive; font-size: 2.5rem; font-weight: 700; color: var(--text-main);
+      letter-spacing: 0.5px;
     }
 
     .bento-grid {
@@ -163,68 +160,59 @@
     }
 
     .bento-wide { grid-column: span 2; }
-    .bento-square { height: 145px; } /* Replaced aspect-ratio to prevent huge squares */
+    .bento-square { height: 160px; } 
     
     .bento-dates { background: var(--bento-dates-bg); }
     .bento-todo { background: var(--bento-todo-bg); }
     .bento-wishlist { background: var(--bento-wish-bg); }
 
-    .todo-wide-layout {
-      display: flex; gap: 15px; align-items: center; margin-top: 5px; z-index: 1;
-    }
-    .todo-wide-layout .bento-number-wrapper { flex-grow: 0; min-width: 50px; }
-    .todo-wide-layout .bento-preview { margin-top: 0; flex-grow: 1; }
-
     .bento-title-row {
       display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 5px;
     }
 
     .bento-title {
-      font-family: 'Quicksand', sans-serif;
-      font-size: 0.9rem; font-weight: 600; color: var(--text-muted);
+      font-family: 'PT Serif', serif;
+      font-size: 0.9rem; font-weight: 700; color: var(--text-muted);
       display: flex; align-items: center; gap: 8px; text-transform: uppercase;
       letter-spacing: 1px;
     }
     .bento-title i { color: var(--primary); font-size: 1.1rem; }
 
-    .bento-dates-content {
-      display: flex; flex-direction: column; justify-content: center; flex-grow: 1; margin-top: 10px; z-index: 1;
-    }
-    .bento-date-hero {
+    /* Number & Count Heroes at Top Right */
+    .bento-hero-stat {
       display: flex; align-items: baseline; gap: 4px; justify-content: flex-end;
     }
-    .bento-date-hero .day-num {
-      font-family: 'Quicksand', sans-serif;
-      font-size: 1.4rem; font-weight: 600; color: var(--primary); line-height: 1;
+    .bento-hero-stat .stat-num {
+      font-family: 'PT Serif', serif; font-size: 1.4rem; font-weight: 700; color: var(--primary); line-height: 1;
     }
-    .bento-date-hero .month-str {
-      font-family: 'Quicksand', sans-serif;
-      font-size: 0.85rem; font-weight: 600; color: var(--text-muted); line-height: 1; text-transform: uppercase;
-    }
-    .bento-date-context {
-      font-family: 'Quicksand', sans-serif;
-      font-size: 1.05rem; color: var(--text-main); font-weight: 500; line-height: 1.4;
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    .bento-hero-stat .stat-label {
+      font-family: 'PT Serif', serif; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); line-height: 1; text-transform: uppercase;
     }
 
-    /* Widget Core Elements */
+    .bento-dates-content {
+      display: flex; flex-direction: column; flex-grow: 1; margin-top: 10px; z-index: 1;
+      min-height: 0;
+    }
+    
+    /* Invisible Scrollbar for Dates */
+    .bento-date-context {
+      font-family: 'PT Serif', 'Tajawal', serif;
+      font-size: 1.05rem; color: var(--text-main); font-weight: 400; line-height: 1.4;
+      overflow-y: auto; height: 100%;
+      -ms-overflow-style: none; scrollbar-width: none;
+    }
+    .bento-date-context::-webkit-scrollbar { display: none; }
+
+    /* Widget Core Elements (Tasks & Wishes Text Box) */
     .bento-text-box {
-      font-family: 'Quicksand', sans-serif;
-      font-size: 0.95rem; font-weight: 600; color: var(--text-main);
+      font-family: 'PT Serif', 'Tajawal', serif;
+      font-size: 0.95rem; font-weight: 700; color: var(--text-main);
       background: var(--preview-bg); padding: 10px 14px; border-radius: 12px;
       backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-      margin: auto 0; text-align: left;
+      margin: 12px 0 auto 0; text-align: left;
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-      line-height: 1.4; word-break: break-word; width: 100%;
-    }
-    .bento-bottom-stats {
-      display: flex; align-items: baseline; gap: 6px; justify-content: flex-start; margin-top: auto;
-    }
-    .bento-bottom-stats .stats-num {
-      font-family: 'Quicksand', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--text-main); line-height: 1;
-    }
-    .bento-bottom-stats .stats-label {
-      font-family: 'Quicksand', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1;
+      line-height: 1.4; word-break: break-word; width: 100%; z-index: 1;
     }
 
     .list-controls { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px 5px; flex-shrink: 0; }
@@ -270,9 +258,9 @@
     .checkbox-wrapper input:checked ~ .custom-checkbox { background: var(--primary); border-color: var(--primary); }
     .checkbox-wrapper input:checked ~ .custom-checkbox::after { opacity: 1; transform: scale(1); }
 
-    .item-text { flex: 1; font-weight: 600; word-break: break-word; transition: color 0.3s; color: var(--text-main); display: flex; flex-direction: column; line-height: 1.3; }
+    .item-text { flex: 1; font-weight: 700; word-break: break-word; transition: color 0.3s; color: var(--text-main); display: flex; flex-direction: column; line-height: 1.3; }
     .item-text .main-text { font-size: 1.05rem; }
-    .item-text .date-text { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; font-weight: 500; }
+    .item-text .date-text { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; font-weight: 400; }
     .list-item.completed .item-text .main-text { text-decoration: line-through; color: var(--text-muted); }
 
     .actions { display: flex; gap: 8px; flex-shrink: 0; margin-inline-start: 10px; }
@@ -294,9 +282,9 @@
     .input-group:focus-within { border-color: var(--primary-soft); }
     input[type="text"] {
       flex: 1; padding: 10px 15px; border: none; background: transparent;
-      font-size: 1rem; font-weight: 600; font-family: inherit; color: var(--text-main); outline: none;
+      font-size: 1rem; font-weight: 700; font-family: inherit; color: var(--text-main); outline: none;
     }
-    input[type="text"]::placeholder { color: var(--text-muted); font-weight: 500; }
+    input[type="text"]::placeholder { color: var(--text-muted); font-weight: 400; }
     .btn-cancel {
       background: transparent; border: none; color: var(--text-muted);
       font-size: 1.2rem; cursor: pointer; padding: 0 5px; display: none; transition: color 0.2s;
@@ -310,30 +298,13 @@
     button.btn-main:hover { background: var(--primary-hover); transform: scale(1.02); }
     button.btn-main:active { transform: scale(0.95); }
     button.btn-main:disabled { background: var(--text-muted); cursor: not-allowed; opacity: 0.7; }
-    .empty-state { text-align: center; color: var(--text-muted); font-size: 1.1rem; font-weight: 600; padding: 60px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+    .empty-state { text-align: center; color: var(--text-muted); font-size: 1.1rem; font-weight: 700; padding: 60px 0; display: flex; flex-direction: column; align-items: center; gap: 15px; }
     .empty-state i { font-size: 3rem; color: var(--primary-soft); background: var(--bg-color); width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
 
     .calendar-wrapper { padding: 25px; }
     .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 1.2rem; font-weight: 700;}
-    .cal-nav-group { display: flex; gap: 10px; align-items: center; }
-    .cal-nav-btn { background: var(--surface); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 10px; width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; }
-    .cal-nav-btn:hover, .cal-nav-btn:active { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); transform: scale(0.95); }
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
-    .calendar-day-name { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; padding-bottom: 10px; }
     
-    .calendar-day {
-      aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-      border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer;
-      transition: all 0.2s; background: var(--surface); border: 1px solid var(--border-color);
-      position: relative;
-    }
-    .calendar-day:hover, .calendar-day.selected { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
-    .calendar-day.empty { background: transparent; border: none; cursor: default; }
-    .calendar-day.today { background: var(--primary); color: white; border: none; box-shadow: 0 4px 10px var(--primary-soft); }
-    .calendar-day .event-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; position: absolute; bottom: 6px; }
-    .calendar-day.today .event-dot { background: white; }
-
-    .events-section { margin-top: 30px; }
+    .events-section { margin-top: 10px; }
     .events-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .events-section-header h3 { margin: 0; font-size: 1.2rem; color: var(--text-main); }
     .add-event-btn { background: var(--primary); color: white; border: none; border-radius: 16px; padding: 8px 16px; font-weight: 700; cursor: pointer; transition: 0.2s; font-family: inherit; }
@@ -342,10 +313,6 @@
     .event-card {
       background: var(--bg-color); padding: 15px; border-radius: 16px; border: 1px solid var(--border-color);
       display: flex; align-items: center; gap: 15px; margin-bottom: 10px; position: relative;
-    }
-    .event-date-box {
-      background: var(--primary-soft); color: var(--primary); padding: 10px; 
-      border-radius: 12px; font-weight: 700; text-align: center; min-width: 60px;
     }
     .event-details { flex-grow: 1; }
     .event-del-btn, .event-edit-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 10px; font-size: 1.1rem; }
@@ -361,20 +328,22 @@
       position: fixed; top: 0; left: -320px; width: 300px; height: 100dvh;
       background: var(--surface); z-index: 1000; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
       display: flex; flex-direction: column; padding: calc(var(--safe-area-top) + 30px) 20px 20px;
-      box-shadow: 10px 0 30px rgba(0,0,0,0.3); border-top-right-radius: 30px; border-bottom-right-radius: 30px;
+      box-shadow: 15px 0 40px rgba(0,0,0,0.15); border-top-right-radius: 35px; border-bottom-right-radius: 35px;
     }
     .side-menu.active { transform: translateX(320px); }
-    .side-menu-header { font-family: 'Dancing Script', cursive; font-size: 2.6rem; color: var(--primary); text-align: center; margin-bottom: 30px; }
-    .side-menu-links { display: flex; flex-direction: column; gap: 10px; }
+    .side-menu-header { font-family: 'PT Serif', serif; font-size: 2.2rem; color: var(--primary); font-weight: 700; font-style: italic; text-align: left; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+    .side-menu-links { display: flex; flex-direction: column; gap: 5px; }
     .menu-item {
-      display: flex; align-items: center; gap: 15px; padding: 16px 20px; font-size: 1.1rem; 
+      display: flex; align-items: center; gap: 15px; padding: 16px 20px; font-size: 0.9rem; 
       font-weight: 700; color: var(--text-main); background: transparent; border: none;
-      border-radius: 20px; cursor: pointer; transition: all 0.2s; text-align: left; font-family: inherit;
+      border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: left; font-family: 'PT Serif', serif;
+      text-transform: uppercase; letter-spacing: 1.5px; border-left: 4px solid transparent;
     }
-    .menu-item:hover, .menu-item.active-menu { background: var(--primary-soft); color: var(--primary); }
+    .menu-item:hover { transform: translateX(5px); }
+    .menu-item.active-menu { background: var(--primary-soft); color: var(--primary); border-left: 4px solid var(--primary); }
     .menu-item i { font-size: 1.2rem; width: 25px; text-align: center; }
     .spacer { flex-grow: 1; }
-    .menu-bottom-bar { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid var(--border-color); }
+    .menu-bottom-bar { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 15px; border-top: 1px solid var(--border-color); }
     .menu-bottom-icons { display: flex; gap: 10px; }
     .menu-bottom-bar .icon-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer; transition: color 0.3s, transform 0.2s; padding: 10px; border-radius: 50%; }
     .menu-bottom-bar .icon-btn:hover { color: var(--primary); background: var(--primary-soft); transform: scale(1.05); }
@@ -382,13 +351,13 @@
     
     /* Message Box */
     .message-box {
-      position: fixed; top: var(--safe-area-top); left: 50%; transform: translateX(-50%) translateY(-150%);
+      position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
       background: var(--surface); border: 1px solid var(--primary); color: var(--text-main);
       padding: 15px 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      z-index: 10000; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex; align-items: center; gap: 15px; font-weight: 600; font-size: 1rem;
+      z-index: 10000; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.4s;
+      display: flex; align-items: center; gap: 15px; font-weight: 700; font-size: 1rem;
     }
-    .message-box.show { transform: translateX(-50%) translateY(20px); }
+    .message-box.show { top: calc(var(--safe-area-top) + 20px); }
     .message-box button { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 12px; font-family: inherit; font-weight: bold; cursor: pointer; }
 
     /* Custom Event Modal */
@@ -406,11 +375,11 @@
       border: 1px solid var(--border-color);
     }
     .custom-modal-overlay.show .custom-modal { transform: scale(1); }
-    .modal-title { font-size: 1.4rem; font-weight: 800; color: var(--text-main); margin-bottom: 20px; text-align: center; }
+    .modal-title { font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-bottom: 20px; text-align: center; }
     .modal-input {
       width: 100%; padding: 15px; border-radius: 16px; border: 1px solid var(--border-color);
       background: var(--bg-color); color: var(--text-main); font-family: inherit; font-size: 1rem;
-      margin-bottom: 15px; outline: none; transition: border-color 0.2s; font-weight: 600;
+      margin-bottom: 15px; outline: none; transition: border-color 0.2s; font-weight: 700;
     }
     .modal-input:focus { border-color: var(--primary); }
     .modal-actions { display: flex; gap: 10px; margin-top: 10px; }
@@ -431,7 +400,7 @@
   <div class="custom-modal-overlay" id="confirmModal">
     <div class="custom-modal">
       <div class="modal-title" dir="auto">Delete Occasion?</div>
-      <div style="text-align: center; color: var(--text-muted); margin-bottom: 20px; font-weight: 600;">This action cannot be undone.</div>
+      <div style="text-align: center; color: var(--text-muted); margin-bottom: 20px; font-weight: 700;">This action cannot be undone.</div>
       <div class="modal-actions">
         <button class="btn-modal btn-cancel-modal" id="cancelConfirmBtn">Cancel</button>
         <button class="btn-modal btn-save-modal" id="yesConfirmBtn" style="background: var(--delete-bg);">Delete</button>
@@ -471,7 +440,12 @@
     </div>
     <div class="spacer"></div>
     <div class="menu-bottom-bar">
-      <div class="version-info">v2.20</div>
+      <div>
+        <div class="version-info">v3.0</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; letter-spacing: 0.5px; font-family: 'Quicksand', sans-serif; text-transform: uppercase; white-space: nowrap;">
+          Engineered with love <i class="fas fa-heart" style="color: var(--primary); font-size: 0.65rem;"></i>
+        </div>
+      </div>
       <div class="menu-bottom-icons">
         <button class="icon-btn" id="themeBtn" title="Toggle Theme"><i class="fas fa-sun"></i></button>
         <button class="icon-btn" id="refreshBtn" title="Refresh App"><i class="fas fa-sync-alt"></i></button>
@@ -488,9 +462,10 @@
 
     <div class="view-container">
       
+      <!-- Landing View (Bento Grid) -->
       <div id="view-landing" class="view active">
         <div class="greeting-section">
-          <h2 id="greetingText" dir="auto">Welcome back</h2>
+          <h2 id="greetingText" dir="auto">Good morning</h2>
         </div>
 
         <div class="bento-grid">
@@ -499,9 +474,9 @@
             <i class="fas fa-calendar-alt bento-card-bg-icon"></i>
             <div class="bento-title-row">
               <div class="bento-title"><span dir="auto">Dates</span></div>
-              <div class="bento-date-hero">
-                <span class="day-num" id="bentoDateNumber">--</span>
-                <span class="month-str" id="bentoDateMonth">Month</span>
+              <div class="bento-hero-stat">
+                <span class="stat-num" id="bentoDateNumber">--</span>
+                <span class="stat-label" id="bentoDateMonth">Month</span>
               </div>
             </div>
             <div class="bento-dates-content">
@@ -514,31 +489,32 @@
           <!-- Wishlist Bento (Square) -->
           <div class="bento-card bento-square bento-wishlist" data-target="wishlist">
             <i class="fas fa-star bento-card-bg-icon"></i>
-            <div class="bento-title"><i class="fas fa-sparkles"></i> <span dir="auto">Wishes</span></div>
-            <div class="bento-text-box" id="bentoWishNext" dir="auto">Loading...</div>
-            <div class="bento-bottom-stats">
-              <span class="stats-num" id="bentoWishCount">-</span>
-              <span class="stats-label" dir="auto">Total</span>
+            <div class="bento-title-row">
+              <div class="bento-title"><i class="fas fa-sparkles"></i> <span dir="auto">Wishes</span></div>
+              <div class="bento-hero-stat">
+                <span class="stat-num" id="bentoWishCount">-</span>
+                <span class="stat-label" dir="auto">Total</span>
+              </div>
             </div>
+            <div class="bento-text-box" id="bentoWishNext" dir="auto">Loading...</div>
           </div>
           
           <!-- To-Do Bento (Wide) -->
           <div class="bento-card bento-wide bento-todo" data-target="todo">
-            <div class="bento-title"><span dir="auto">Tasks</span></div>
-            <div class="bento-text-box" id="bentoTodoNext" dir="auto">Loading...</div>
-            <div class="bento-bottom-stats">
-              <span class="stats-num" id="bentoTodoCount">-</span>
-              <span class="stats-label" dir="auto">Pending</span>
+            <i class="fas fa-clipboard-check bento-card-bg-icon"></i>
+            <div class="bento-title-row">
+              <div class="bento-title"><span dir="auto">Tasks</span></div>
+              <div class="bento-hero-stat">
+                <span class="stat-num" id="bentoTodoCount">-</span>
+                <span class="stat-label" dir="auto">Pending</span>
+              </div>
             </div>
+            <div class="bento-text-box" id="bentoTodoNext" dir="auto">Loading...</div>
           </div>
         </div>
       </div>
 
       <!-- ToDo View -->
-          </div>
-        </div>
-      </div>
-
       <div id="view-todo" class="view">
         <div class="list-controls">
           <div class="section-title" dir="auto">Tasks</div>
@@ -559,6 +535,7 @@
         </div>
       </div>
 
+      <!-- Wishlist View -->
       <div id="view-wishlist" class="view">
         <div class="list-controls">
           <div class="section-title" dir="auto">Wishes</div>
@@ -579,29 +556,25 @@
         </div>
       </div>
 
+      <!-- Dates / Calendar View -->
       <div id="view-dates" class="view">
         <div class="calendar-wrapper">
-          <div class="calendar-header">
-            <div class="cal-nav-group">
-              <button class="cal-nav-btn" id="prevYearBtn"><i class="fas fa-angle-double-left"></i></button>
-              <button class="cal-nav-btn" id="prevMonthBtn"><i class="fas fa-angle-left"></i></button>
-            </div>
-            <span dir="auto" id="calendarMonthLabel">Month Year</span>
-            <div class="cal-nav-group">
-              <button class="cal-nav-btn" id="nextMonthBtn"><i class="fas fa-angle-right"></i></button>
-              <button class="cal-nav-btn" id="nextYearBtn"><i class="fas fa-angle-double-right"></i></button>
-            </div>
-          </div>
-          
-          <div class="calendar-grid" id="calendarGrid">
-            <!-- Days rendered via JS -->
-          </div>
-
           <div class="events-section">
             <div class="events-section-header">
-              <h3 dir="auto" id="selectedDateLabel">Selected Date</h3>
-              <button class="add-event-btn" id="openEventModalBtn"><i class="fas fa-plus"></i> Add Occasion</button>
+              <h3 dir="auto">Saved Occasions</h3>
+              <button class="add-event-btn" id="openEventModalBtn"><i class="fas fa-plus"></i> Add</button>
             </div>
+            
+            <div class="list-controls" style="padding: 0 0 15px 0;">
+              <div style="flex-grow:1;"></div>
+              <select id="eventsSortSelect" class="sortSelect" data-list="events">
+                <option value="newest" selected>Latest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="closest">Closest to Today</option>
+                <option value="recent">Recently Added</option>
+              </select>
+            </div>
+            
             <div id="eventsListContainer">
               <!-- Rendered via JS -->
             </div>
@@ -632,7 +605,7 @@
     const leftHeaderBtn = document.getElementById('leftHeaderBtn');
     const headerTitle = document.getElementById('headerTitle');
     const views = document.querySelectorAll('.view');
-    const widgets = document.querySelectorAll('.bento-card'); // Updated selector
+    const widgets = document.querySelectorAll('.bento-card'); 
     const sideMenuItems = document.querySelectorAll('.side-menu-links .menu-item');
     
     // Side Menu Elements
@@ -661,8 +634,6 @@
     let calendarEvents = [];
     
     // Calendar State
-    let currentCalDate = new Date(); // Tracks the month/year being viewed
-    let selectedDate = new Date(); // Tracks the specifically tapped day
     let editingEventId = null;
     let deleteTargetId = null;
     
@@ -715,7 +686,7 @@
         headerTitle.textContent = "Salma App";
         leftHeaderBtn.innerHTML = openMenuBtnIcon;
         leftHeaderBtn.onclick = toggleMenu;
-        updateGreeting(); // Refresh greeting on return home
+        updateGreeting(); 
       } else {
         leftHeaderBtn.innerHTML = backBtnIcon;
         leftHeaderBtn.onclick = () => navigateTo('landing');
@@ -728,9 +699,9 @@
     // Dynamic Greeting
     function updateGreeting() {
       const hr = new Date().getHours();
-      let greeting = "Good evening";
-      if (hr < 12) greeting = "Good morning";
-      else if (hr < 18) greeting = "Good afternoon";
+      let greeting = "Good evening, hope you had a lovely day!";
+      if (hr < 12) greeting = "Good morning, you look pretty today!";
+      else if (hr < 18) greeting = "Good afternoon, keep smiling!";
       document.getElementById('greetingText').textContent = greeting;
     }
     updateGreeting();
@@ -739,11 +710,9 @@
     widgets.forEach(widget => { widget.addEventListener('click', () => { const t = widget.getAttribute('data-target'); if (t) navigateTo(t); }); });
     leftHeaderBtn.onclick = toggleMenu;
 
-    // --- DATES & CALENDAR LOGIC --- //
-    const calendarMonthLabel = document.getElementById('calendarMonthLabel');
-    const calendarGrid = document.getElementById('calendarGrid');
-    const selectedDateLabel = document.getElementById('selectedDateLabel');
+    // --- DATES LOGIC --- //
     const eventsListContainer = document.getElementById('eventsListContainer');
+    const eventsSortSelect = document.getElementById('eventsSortSelect');
     
     // Modal
     const eventModal = document.getElementById('eventModal');
@@ -778,10 +747,10 @@
       eventModalTitle.textContent = "Add Occasion";
       document.getElementById('saveEventBtn').textContent = "Save Occasion";
       
-      // Pre-fill date input with currently selected date locally formatted
-      const y = selectedDate.getFullYear();
-      const m = String(selectedDate.getMonth() + 1).padStart(2, '0');
-      const d = String(selectedDate.getDate()).padStart(2, '0');
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
       eventDateInput.value = `${y}-${m}-${d}`;
       eventTitleInput.value = "";
       eventModal.classList.add('show');
@@ -811,101 +780,55 @@
       }
     });
 
-    function formatISODate(dateObj) {
-      const y = dateObj.getFullYear();
-      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const d = String(dateObj.getDate()).padStart(2, '0');
-      return `${y}-${m}-${d}`;
-    }
-
-    function renderCalendar() {
-      const year = currentCalDate.getFullYear();
-      const month = currentCalDate.getMonth();
-      const today = new Date();
-      
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      calendarMonthLabel.textContent = `${monthNames[month]} ${year}`;
-      
-      calendarGrid.innerHTML = `
-        <div class="calendar-day-name">Sun</div>
-        <div class="calendar-day-name">Mon</div>
-        <div class="calendar-day-name">Tue</div>
-        <div class="calendar-day-name">Wed</div>
-        <div class="calendar-day-name">Thu</div>
-        <div class="calendar-day-name">Fri</div>
-        <div class="calendar-day-name">Sat</div>
-      `;
-
-      const firstDayIndex = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-      // Empty cells before start of month
-      for (let i = 0; i < firstDayIndex; i++) {
-        const emptyDiv = document.createElement('div');
-        emptyDiv.className = 'calendar-day empty';
-        calendarGrid.appendChild(emptyDiv);
-      }
-
-      // Populate days
-      for (let i = 1; i <= daysInMonth; i++) {
-        const dayDiv = document.createElement('div');
-        dayDiv.className = 'calendar-day';
-        dayDiv.textContent = i;
-        
-        // Check states
-        const isToday = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear());
-        const isSelected = (i === selectedDate.getDate() && month === selectedDate.getMonth() && year === selectedDate.getFullYear());
-        
-        if (isToday) dayDiv.classList.add('today');
-        if (isSelected) dayDiv.classList.add('selected');
-
-        // Check if day has events
-        const checkDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-        const hasEvent = calendarEvents.some(e => e.date === checkDateStr);
-        if (hasEvent) {
-          const dot = document.createElement('div');
-          dot.className = 'event-dot';
-          dayDiv.appendChild(dot);
-        }
-
-        dayDiv.addEventListener('click', () => {
-          selectedDate = new Date(year, month, i);
-          renderCalendar(); // Re-render to highlight
-          renderSelectedEvents();
-        });
-
-        calendarGrid.appendChild(dayDiv);
-      }
-      
-      renderSelectedEvents();
-    }
-
-    // Calendar Navigation Listeners
-    document.getElementById('prevMonthBtn').addEventListener('click', () => { currentCalDate.setMonth(currentCalDate.getMonth() - 1); renderCalendar(); });
-    document.getElementById('nextMonthBtn').addEventListener('click', () => { currentCalDate.setMonth(currentCalDate.getMonth() + 1); renderCalendar(); });
-    document.getElementById('prevYearBtn').addEventListener('click', () => { currentCalDate.setFullYear(currentCalDate.getFullYear() - 1); renderCalendar(); });
-    document.getElementById('nextYearBtn').addEventListener('click', () => { currentCalDate.setFullYear(currentCalDate.getFullYear() + 1); renderCalendar(); });
+    eventsSortSelect.addEventListener('change', renderSelectedEvents);
 
     function renderSelectedEvents() {
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      selectedDateLabel.textContent = `${selectedDate.getDate()} ${monthNames[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`;
+      const sortVal = eventsSortSelect.value;
+      let eventsToRender = [...calendarEvents];
       
-      eventsListContainer.innerHTML = '';
-      const selectedDateStr = formatISODate(selectedDate);
-      const daysEvents = calendarEvents.filter(e => e.date === selectedDateStr);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
 
-      if (daysEvents.length === 0) {
-        eventsListContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding: 20px 0;">No entries for this date.</div>`;
+      if (sortVal === "closest") {
+        eventsToRender.sort((a, b) => {
+          const [yA, mA, dA] = a.date.split('-');
+          const dateA = new Date(today.getFullYear(), parseInt(mA)-1, parseInt(dA));
+          if (dateA < today) dateA.setFullYear(today.getFullYear() + 1);
+          
+          const [yB, mB, dB] = b.date.split('-');
+          const dateB = new Date(today.getFullYear(), parseInt(mB)-1, parseInt(dB));
+          if (dateB < today) dateB.setFullYear(today.getFullYear() + 1);
+          
+          return dateA.getTime() - dateB.getTime();
+        });
+      } else if (sortVal === "recent") {
+        eventsToRender.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      } else if (sortVal === "oldest") {
+        eventsToRender.sort((a, b) => a.date.localeCompare(b.date));
+      } else {
+        // newest (latest date)
+        eventsToRender.sort((a, b) => b.date.localeCompare(a.date));
+      }
+
+      eventsListContainer.innerHTML = '';
+      
+      if (eventsToRender.length === 0) {
+        eventsListContainer.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding: 20px 0;">No occasions saved yet.</div>`;
         return;
       }
 
-      daysEvents.forEach(ev => {
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      eventsToRender.forEach(ev => {
+        const [y, m, d] = ev.date.split('-');
+        const displayDate = `${parseInt(d)} ${monthNames[parseInt(m)-1]} ${y}`;
+
         const card = document.createElement('div');
         card.className = 'event-card';
         card.innerHTML = `
           <div class="event-details" dir="auto">
             <div style="font-weight:700; font-size:1.1rem; color:var(--text-main);">${ev.title}</div>
-            <div style="font-size:0.85rem; color:var(--text-muted); margin-top: 4px;">Occasion</div>
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-top: 4px;">${displayDate}</div>
           </div>
           <div style="display: flex; gap: 5px;">
             <button class="event-edit-btn"><i class="fas fa-pen"></i></button>
@@ -939,51 +862,56 @@
       bentoDateMonth.textContent = monthNames[today.getMonth()];
       
       const tMonth = today.getMonth() + 1;
-      const tDay = today.getDate();
-      const todayIsoStr = formatISODate(today);
-
-      // Check for Anniversaries/Past Entries matching Month & Day
-      const anniversaries = calendarEvents.filter(e => {
+      
+      // Filter events happening this month
+      const thisMonthEvents = calendarEvents.filter(e => {
         const [y, m, d] = e.date.split('-');
-        return parseInt(m) === tMonth && parseInt(d) === tDay;
+        return parseInt(m) === tMonth;
       });
 
-      if (anniversaries.length > 0) {
-        const ev = anniversaries[0];
-        const [y, m, d] = ev.date.split('-');
-        const yearDiff = today.getFullYear() - parseInt(y);
-        let yearText = "";
+      if (thisMonthEvents.length > 0) {
+        // Sort by year descending (latest first)
+        thisMonthEvents.sort((a, b) => {
+          const yearA = parseInt(a.date.split('-')[0]);
+          const yearB = parseInt(b.date.split('-')[0]);
+          if (yearB !== yearA) return yearB - yearA; // Latest year first
+          return parseInt(a.date.split('-')[2]) - parseInt(b.date.split('-')[2]); // fallback to day
+        });
         
-        if (yearDiff === 0) {
-          yearText = "Today:";
-        } else if (yearDiff === 1) {
-          yearText = "On this day 1 year ago:";
-        } else if (yearDiff === -1) {
-          yearText = "On this day in 1 year:";
-        } else if (yearDiff < 0) {
-          yearText = `On this day in ${Math.abs(yearDiff)} years:`;
-        } else {
-          yearText = `On this day ${yearDiff} years ago:`;
-        }
+        const todayYear = today.getFullYear();
+        let eventsHtml = thisMonthEvents.map(ev => {
+          const [y, m, d] = ev.date.split('-');
+          const yearDiff = todayYear - parseInt(y);
+          let yearText = "";
+          
+          if (yearDiff === 0) {
+            yearText = "This year:";
+          } else if (yearDiff === 1) {
+            yearText = "1 Year ago:";
+          } else if (yearDiff === -1) {
+            yearText = "In 1 year:";
+          } else if (yearDiff < 0) {
+            yearText = `In ${Math.abs(yearDiff)} years:`;
+          } else {
+            yearText = `${yearDiff} Years ago:`;
+          }
+          
+          return `<div style="margin-bottom: 8px;">
+                    <span style="color: var(--primary); font-weight:800; font-size: 0.9rem;">${yearText}</span><br>
+                    <span style="font-size: 1.05rem;">${ev.title}</span>
+                  </div>`;
+        }).join('');
         
-        bentoDatesContext.innerHTML = `<span style="color: var(--primary); font-weight:800;">${yearText}</span><br>${ev.title}`;
+        bentoDatesContext.innerHTML = `<div style="font-weight: 700; color: var(--text-muted); margin-bottom: 5px;">On This Month:</div>${eventsHtml}`;
       } else {
-        // Find next upcoming event
-        const futureEvents = calendarEvents.filter(e => e.date > todayIsoStr).sort((a,b) => a.date.localeCompare(b.date));
-        if (futureEvents.length > 0) {
-          const nextEv = futureEvents[0];
-          const [ny, nm, nd] = nextEv.date.split('-');
-          bentoDatesContext.innerHTML = `<span style="color: var(--text-muted);">Next up (${parseInt(nd)} ${monthNames[parseInt(nm)-1]}):</span><br>${nextEv.title}`;
-        } else {
-          bentoDatesContext.innerHTML = `<span style="color: var(--text-muted);">No upcoming dates. Tap to add.</span>`;
-        }
+        bentoDatesContext.innerHTML = `<span style="color: var(--text-muted);">No occasions this month.</span>`;
       }
     }
 
     // Firebase Listeners
     onSnapshot(eventsRef, (snapshot) => {
       calendarEvents = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      renderCalendar();
+      renderSelectedEvents();
       updateDatesWidget();
     });
 
@@ -994,7 +922,7 @@
       
       bentoTodoCount.textContent = pendingTasks.length;
       if (pendingTasks.length > 0) {
-        bentoTodoNext.innerHTML = pendingTasks[0].text;
+        bentoTodoNext.innerHTML = `<span style="color: var(--primary); font-weight:800;">Next:</span> ${pendingTasks[0].text}`;
       } else {
         bentoTodoNext.innerHTML = `All caught up!`;
       }
@@ -1007,7 +935,7 @@
       
       bentoWishCount.textContent = wishes.length;
       if (wishes.length > 0) {
-        bentoWishNext.innerHTML = wishes[0].text;
+        bentoWishNext.innerHTML = `<span style="color: var(--primary); font-weight:800;">Latest:</span> ${wishes[0].text}`;
       } else {
         bentoWishNext.innerHTML = `No wishes yet.`;
       }
