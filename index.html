@@ -125,8 +125,8 @@
     }
 
     .bento-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
       padding: 15px 20px 25px;
     }
@@ -158,9 +158,6 @@
       pointer-events: none;
       transform: rotate(-15deg);
     }
-
-    .bento-wide { grid-column: span 2; }
-    .bento-square { height: 160px; } 
     
     .bento-dates { background: var(--bento-dates-bg); }
     .bento-todo { background: var(--bento-todo-bg); }
@@ -181,10 +178,10 @@
 
     /* Number & Count Heroes at Top Right */
     .bento-hero-stat {
-      display: flex; align-items: baseline; gap: 4px; justify-content: flex-end;
+      display: flex; align-items: center; gap: 4px; justify-content: flex-end;
     }
     .bento-hero-stat .stat-num {
-      font-family: 'PT Serif', serif; font-size: 1.4rem; font-weight: 700; color: var(--primary); line-height: 1;
+      font-family: 'PT Serif', serif; font-size: 0.85rem; font-weight: 700; color: var(--primary); line-height: 1;
     }
     .bento-hero-stat .stat-label {
       font-family: 'PT Serif', serif; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); line-height: 1; text-transform: uppercase;
@@ -441,7 +438,7 @@
     <div class="spacer"></div>
     <div class="menu-bottom-bar">
       <div>
-        <div class="version-info">v3.0</div>
+        <div class="version-info">v3.2</div>
         <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; letter-spacing: 0.5px; font-family: 'Quicksand', sans-serif; text-transform: uppercase; white-space: nowrap;">
           Engineered with love <i class="fas fa-heart" style="color: var(--primary); font-size: 0.65rem;"></i>
         </div>
@@ -469,8 +466,8 @@
         </div>
 
         <div class="bento-grid">
-          <!-- Dates Bento (Square) -->
-          <div class="bento-card bento-square bento-dates" data-target="dates">
+          <!-- Dates Bento -->
+          <div class="bento-card bento-dates" data-target="dates">
             <i class="fas fa-calendar-alt bento-card-bg-icon"></i>
             <div class="bento-title-row">
               <div class="bento-title"><span dir="auto">Dates</span></div>
@@ -486,8 +483,21 @@
             </div>
           </div>
 
-          <!-- Wishlist Bento (Square) -->
-          <div class="bento-card bento-square bento-wishlist" data-target="wishlist">
+          <!-- To-Do Bento -->
+          <div class="bento-card bento-todo" data-target="todo">
+            <i class="fas fa-clipboard-check bento-card-bg-icon"></i>
+            <div class="bento-title-row">
+              <div class="bento-title"><span dir="auto">Tasks</span></div>
+              <div class="bento-hero-stat">
+                <span class="stat-num" id="bentoTodoCount">-</span>
+                <span class="stat-label" dir="auto">Pending</span>
+              </div>
+            </div>
+            <div class="bento-text-box" id="bentoTodoNext" dir="auto" style="display: block;">Loading...</div>
+          </div>
+
+          <!-- Wishlist Bento -->
+          <div class="bento-card bento-wishlist" data-target="wishlist">
             <i class="fas fa-star bento-card-bg-icon"></i>
             <div class="bento-title-row">
               <div class="bento-title"><i class="fas fa-sparkles"></i> <span dir="auto">Wishes</span></div>
@@ -497,19 +507,6 @@
               </div>
             </div>
             <div class="bento-text-box" id="bentoWishNext" dir="auto">Loading...</div>
-          </div>
-          
-          <!-- To-Do Bento (Wide) -->
-          <div class="bento-card bento-wide bento-todo" data-target="todo">
-            <i class="fas fa-clipboard-check bento-card-bg-icon"></i>
-            <div class="bento-title-row">
-              <div class="bento-title"><span dir="auto">Tasks</span></div>
-              <div class="bento-hero-stat">
-                <span class="stat-num" id="bentoTodoCount">-</span>
-                <span class="stat-label" dir="auto">Pending</span>
-              </div>
-            </div>
-            <div class="bento-text-box" id="bentoTodoNext" dir="auto">Loading...</div>
           </div>
         </div>
       </div>
@@ -707,7 +704,13 @@
     updateGreeting();
 
     sideMenuItems.forEach(item => { item.addEventListener('click', () => { const t = item.getAttribute('data-target'); if (t) navigateTo(t); }); });
-    widgets.forEach(widget => { widget.addEventListener('click', () => { const t = widget.getAttribute('data-target'); if (t) navigateTo(t); }); });
+    widgets.forEach(widget => { 
+      widget.addEventListener('click', (e) => { 
+        if (e.target.closest('.checkbox-wrapper')) return; // Prevent navigation if clicking the checkbox
+        const t = widget.getAttribute('data-target'); 
+        if (t) navigateTo(t); 
+      }); 
+    });
     leftHeaderBtn.onclick = toggleMenu;
 
     // --- DATES LOGIC --- //
@@ -922,7 +925,29 @@
       
       bentoTodoCount.textContent = pendingTasks.length;
       if (pendingTasks.length > 0) {
-        bentoTodoNext.innerHTML = `<span style="color: var(--primary); font-weight:800;">Next:</span> ${pendingTasks[0].text}`;
+        const topTask = pendingTasks[0];
+        bentoTodoNext.innerHTML = `
+          <div style="display: flex; align-items: center; width: 100%;">
+            <label class="checkbox-wrapper" style="margin-bottom: 0;">
+              <input type="checkbox" id="dashboardTaskCb_${topTask.id}">
+              <div class="custom-checkbox"></div>
+            </label>
+            <div style="flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word;">
+              <span style="color: var(--primary); font-weight:800;">Next:</span> ${topTask.text}
+            </div>
+          </div>
+        `;
+        
+        setTimeout(() => {
+          const cb = document.getElementById(`dashboardTaskCb_${topTask.id}`);
+          if (cb) {
+            cb.addEventListener('change', async (e) => {
+              if (cb.checked) {
+                await updateDoc(doc(db, "tasks", topTask.id), { completed: true });
+              }
+            });
+          }
+        }, 0);
       } else {
         bentoTodoNext.innerHTML = `All caught up!`;
       }
